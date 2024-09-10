@@ -6,7 +6,3 @@ class joshShop(models.Model):
     price = models.IntegerField()
     description = models.TextField()
     quantity = models.IntegerField()
-
-    @property
-    def is_price_expensive(self):
-        return self.price > 1000000
