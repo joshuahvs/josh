@@ -1,10 +1,14 @@
 <h1>JOSH APP</h1>
 
-<h5>NPM: </h5>
-<p>{{ npm }}</p> 
-<h5>Name: </h5>
-<p> {{  name  }}</p>
-<h5>Class: </h5>
-<p>{{  class  }}</p>
-<h5>Description</h5>
-<p>{{  description  }}</p> 
+<h5>NPM: 2306165540 </h5>
+<h5>Name: Joshua Hans Vito Soehendra </h5>
+<h5>Class: PBP A </h5>
+
+<h2>Product List</h2>
+
+{% for product in products %}
+    <h3>Product Name: {{ product.name }}</h3>
+    <p>Price: {{ product.price }}</p>
+    <p>Description: {{ product.description }}</p>
+    <p>Quantity: {{ product.quantity }}</p>
+{% endfor %}
