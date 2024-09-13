@@ -9,18 +9,3 @@ def show_main(request):
     ]
 
     return render(request, "main.html", {'products': products})
-
-    # products = [{
-    #     'name': 'lipgloss',
-    #     'price': 10000000,
-    #     'description': 'hellooo',
-    #     'quantity': 1
-    # },
-    # {
-    #     'name': 'blush on',
-    #     'price': 10000000,
-    #     'description': 'lol',
-    #     'quantity': 1
-    # }]
-
-    # return render(request, "main.html", products)
