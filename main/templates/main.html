@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
+
 <h1>JOSH APP</h1>
 
 <h5>NPM: 2306165540 </h5>
@@ -6,9 +9,41 @@
 
 <h2>Product List</h2>
 
-{% for product in products %}
+<!-- {% for product in products %}
     <h3>Product Name: {{ product.name }}</h3>
     <p>Price: {{ product.price }}</p>
     <p>Description: {{ product.description }}</p>
     <p>Quantity: {{ product.quantity }}</p>
-{% endfor %}
+{% endfor %} -->
+
+{% if not josh_item_entries %}
+<p>Belum ada data barang pada JOSH App.</p>
+{% else %}
+<table>
+  <tr>
+    <th>Product Name</th>
+    <th>Price</th>
+    <th>Description</th>
+    <th>Quantity</th>
+  </tr>
+
+  {% comment %} Berikut cara memperlihatkan data mood di bawah baris ini 
+  {% endcomment %} 
+  {% for item_entry in josh_item_entries %}
+  <tr>
+    <td>{{item_entry.name}}</td>
+    <td>{{item_entry.price}}</td>
+    <td>{{item_entry.description}}</td>
+    <td>{{item_entry.quantity}}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+<br />
+
+<a href="{% url 'main:create_item_entry' %}">
+  <button>Add New Item</button>
+</a>
+
+{% endblock content %}
