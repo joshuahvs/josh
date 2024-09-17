@@ -59,4 +59,15 @@ crsf_token adalah token unik yang dihasilkan untuk setiap sesi dan juga disertak
 6. Setelah itu, saya juga mengimport fungsi dan menambahkan path url di urls.py di main agar dapat mengakses fungsi create_item_entry yang sudah dibuat. 
 7. Selanjutnya, saya juga menambahkan fungsi di views.py yaitu show_xml, show_json yaitu fungsi yang akan mengembalikan data dalam bentuk XML ataupun JSON.
 8. Saya juga menambahkan show_xml_by_id, show_json_by_id untuk melakukan filter XML ataupun JSON berdasarkan ID.
-9. Setelah membuat semua fungsi tersebut, saya mengimport lagi di urls.py dan menambahkan pathnya agar fungsi dapat digunakan. 
+9. Setelah membuat semua fungsi tersebut, saya mengimport lagi di urls.py dan menambahkan pathnya agar fungsi dapat digunakan.
+10. Setelah itu saya melakukan commit dan push ke github
+
+### Hasil Screenshot 
+#### XML
+![My Image](images/xml.png)
+#### XML by ID
+![My Image](images/xml%20by%20id.png)
+#### JSON
+![My Image](images/json.png)
+#### JSON by ID
+![My Image](images/json%20by%20id.png)
