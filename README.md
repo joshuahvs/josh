@@ -1,6 +1,6 @@
 # JOSH
 
-Link tautan menuju web: http://joshua-hans-joshapp2.pbp.cs.ui.ac.id/
+Link tautan menuju web: http://joshua-hans-joshapp.pbp.cs.ui.ac.id/
 
 # Tugas 2
 
@@ -26,8 +26,6 @@ Link tautan menuju web: http://joshua-hans-joshapp2.pbp.cs.ui.ac.id/
 ### 2. Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html.
 ![My Image](images/PBP%20bagan.jpg)
 
-
-
 ### 3. Jelaskan fungsi git dalam pengembangan perangkat lunak!
 Dengan menggunakan git, kita dapat mengola dan melacak semua perubahan kode dalam pengembangan perangkat lunak yang memungkinkan kita untuk kembali ke versi sebelumnya jika diperlukan. Git juga memungkinkan kita untuk melakukan branching yang memungkinkan pengembangan fitur baru secara terpisah dari kode utama jadi tidak mengganggu versi stabil dan menggabungkan kode dari berbagai branch setelah fitur selesai dikembangkan. Kita juga dapat menyimpan kode secara remote di GitHub untuk mempermudah sinkronisasi dan backup kode.
 
@@ -40,3 +38,25 @@ Model pada Django disebut sebagai ORM (Object-Relational Mapping) karena berfung
 
 
 # Tugas 3
+### 1. Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
+Kita memerlukan data delivery dalam pengimplementasian sebuah platform karena data dalam sebuah platform harus ditransfer dengan aman dan cepat antara pengguna dan sistem. Hal ini penting untuk menjaga keakuratan aliran informasi dalam sebuah platform. 
+
+### 2. Menurutmu, mana yang lebih baik antara XML dan JSON? Mengapa JSON lebih populer dibandingkan XML?
+Menurut saya JSON lebih baik daripada XML. JSON juga lebih populer dibandingkan dengan XML karena struktur JSON lebih mudah dibaca dan dipahami oleh manusia seperti kita, sehingga lebih mudah dalam pengembangan dan proses debuggingnya. JSON juga lebih ringkas dan efisien karena formatnya lebih sederhana (tidak ada tag pembuka dan penutup seperti XML), sehingga pemrosesan JSON biasanya lebih cepat dibandingkan dengan XML.
+
+### 3. Jelaskan fungsi dari method is_valid() pada form Django dan mengapa kita membutuhkan method tersebut?
+Method is_valid() pada form Django berfungsi untuk memeriksa apakah data yang dikirim melalui form memenuhi aturan validasi yang sudah diterapkan. Method akan mengembalikan True jika data valid, dan False jika salah. Kita butuh method ini agar hanya data yang valid yang diproses atau disimpan ke dalam databse, dan menolak data atau input yang tidak sesuai.
+
+### 4. Mengapa kita membutuhkan csrf_token saat membuat form di Django? Apa yang dapat terjadi jika kita tidak menambahkan csrf_token pada form Django? Bagaimana hal tersebut dapat dimanfaatkan oleh penyerang?
+crsf_token adalah token unik yang dihasilkan untuk setiap sesi dan juga disertakan dalam form sebagai cara untuk menverifikasi bahwa permintaan yang diterima oleh sebuah server berasal dari sumber yang sah dan diinisiasi oleh pengguna yang terautentikasi. Kita membutuhkan csrf_token saat membuat form di Django untuk mencegah dari serangan Cross Site Request Forgery (CRSF). Django secara default memeriksa keberadaan crsf_token untuk setiap permintaan POST, kalau tidak ada token ini, maka permintaan akan ditolak, dan pengguna akan menerima pesan kesalahan. Tidak adanya crsf_token juga membuka celah bagi penyerang untuk melakukan serangan CRSF. Penyerang dapat mengirimkan permintaan berbahaya yang tampak sah ke aplikasi web atas nama pengguna yang telah terautentikasi. 
+
+### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+1. Yang pertama saya lakukan adalah folder templates, mengisinya dengan base templates yang dapat digunakan sebagai kerangaka umum, dan juga mengonfigurasi templates di settings.py. 
+2. Lalu saya menambahkan id dengan mengimport uuid di models.py yang terletak di main untuk mencegah kerentanan keamanan. Tidak lupa saya melakukan migrations. 
+3. Untuk membuat form, saya membuat file baru bernama forms.py dan membuat class bernama joshShopEntryForm, untuk model dan fields nya saya sesuaikan dengan yang ada di models.py
+4. Setelah itu di views.py, saya mengimport dan membuat fungsi baru bernama create_item_entry yang akan menambahkan data item secara otomatis ketika form di submit. Saya juga mengubah show_main untuk mengambil seluruh objek yang tersimpan di database untuk ditampilkan di main page. 
+5. Selanjutnya saya membuat create_item_entry.html pada templates di main yang mengextend base.html yang akan ditampilkan ketika user mengklik tombol untuk menambah item. Saya juga mengubah main.html untuk menampilkan data baru yang diinput oleh user di form. 
+6. Setelah itu, saya juga mengimport fungsi dan menambahkan path url di urls.py di main agar dapat mengakses fungsi create_item_entry yang sudah dibuat. 
+7. Selanjutnya, saya juga menambahkan fungsi di views.py yaitu show_xml, show_json yaitu fungsi yang akan mengembalikan data dalam bentuk XML ataupun JSON.
+8. Saya juga menambahkan show_xml_by_id, show_json_by_id untuk melakukan filter XML ataupun JSON berdasarkan ID.
+9. Setelah membuat semua fungsi tersebut, saya mengimport lagi di urls.py dan menambahkan pathnya agar fungsi dapat digunakan. 
