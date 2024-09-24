@@ -7,19 +7,19 @@
 <h5>Name: Joshua Hans Vito Soehendra </h5>
 <h5>Class: PBP A </h5>
 
+{% if not josh_item_entries %}
+<p>Belum ada data barang pada JOSH App.</p>
+{% else %}
+
 <h2>Product List</h2>
 
-{% for product in products %}
+{% for product in josh_item_entries %}
     <h3>Product Name: {{ product.name }}</h3>
     <p>Price: {{ product.price }}</p>
     <p>Description: {{ product.description }}</p>
     <p>Quantity: {{ product.quantity }}</p>
 {% endfor %}
-
-{% if not josh_item_entries %}
-<p>Belum ada data barang pada JOSH App.</p>
-{% else %}
-<table>
+<!-- <table>
   <tr>
     <th>Product Name</th>
     <th>Price</th>
@@ -37,7 +37,7 @@
     <td>{{item_entry.quantity}}</td>
   </tr>
   {% endfor %}
-</table>
+</table> -->
 {% endif %}
 
 <br />

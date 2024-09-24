@@ -14,17 +14,16 @@ from django.urls import reverse
 
 @login_required(login_url='/login')
 def show_main(request):
-    josh_item_entries = joshItem.objects.all()
+    josh_item_entries = joshItem.objects.filter(user=request.user)
     products = [
     {'name': 'lipgloss', 'price': 1000000, 'description': 'sun glaze lipgloss', 'quantity': 100},
     {'name': 'blush on', 'price': 1000000, 'description': 'sugar plum blush on', 'quantity': 89},
     ]
     context = {
+        'name': request.user.username,
         'products': products,
         'josh_item_entries': josh_item_entries,
-        # 'last_login': request.COOKIES['last_login'],
-        'last_login': request.COOKIES.get('last_login', 'Not Available'),
-
+        'last_login': request.COOKIES['last_login'],
     }
 
     return render(request, "main.html", context)
@@ -32,7 +31,9 @@ def show_main(request):
 def create_item_entry(request):
     form = joshShopEntryForm(request.POST or None)
     if (form.is_valid() and request.method == "POST"):
-        form.save()
+        josh_item_entry = form.save(commit=False)
+        josh_item_entry.user = request.user
+        josh_item_entry.save()
         return redirect('main:show_main')
     context = {'form': form}
     return render(request,'create_item_entry.html', context)
