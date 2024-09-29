@@ -14,30 +14,22 @@
 <h2>Product List</h2>
 
 {% for product in josh_item_entries %}
-    <h3>Product Name: {{ product.name }}</h3>
+<div class="card">
+  <h3>Product Name: {{ product.name }}</h3>
     <p>Price: {{ product.price }}</p>
     <p>Description: {{ product.description }}</p>
     <p>Quantity: {{ product.quantity }}</p>
+    <a href="{% url 'main:edit_item' product.pk %}">
+      <button>
+          Edit
+      </button>
+    </a>
+    <a href="{% url 'main:logout' %}">
+      <button>Logout</button>
+    </a>
+</div>
 {% endfor %}
-<!-- <table>
-  <tr>
-    <th>Product Name</th>
-    <th>Price</th>
-    <th>Description</th>
-    <th>Quantity</th>
-  </tr>
 
-  {% comment %} Berikut cara memperlihatkan data mood di bawah baris ini 
-  {% endcomment %} 
-  {% for item_entry in josh_item_entries %}
-  <tr>
-    <td>{{item_entry.name}}</td>
-    <td>{{item_entry.price}}</td>
-    <td>{{item_entry.description}}</td>
-    <td>{{item_entry.quantity}}</td>
-  </tr>
-  {% endfor %}
-</table> -->
 {% endif %}
 
 <br />

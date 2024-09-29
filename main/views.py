@@ -1,14 +1,13 @@
 import datetime
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from main.forms import joshShopEntryForm
 from main.models import joshItem
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.core import serializers
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 
@@ -37,6 +36,24 @@ def create_item_entry(request):
         return redirect('main:show_main')
     context = {'form': form}
     return render(request,'create_item_entry.html', context)
+
+def edit_item(request, id):
+    # Get mood entry berdasarkan id
+    mood = joshItem.objects.get(pk = id)
+
+    # Set mood entry sebagai instance dari form
+    form = joshShopEntryForm(request.POST or None, instance=mood)
+    if form.is_valid() and request.method == "POST":
+        # Simpan form dan kembali ke halaman awal
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+    context = {'form': form}
+    return render(request, "edit_item.html", context)
+
+def delete_item(request,id):
+    item = joshItem.objects.get(id=id)
+    item.delete()
+    return HttpResponseRedirect(reverse('main:show_main'))
 
 def show_xml(request):
     data = joshItem.objects.all()
