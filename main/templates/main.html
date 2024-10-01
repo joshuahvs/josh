@@ -79,104 +79,97 @@
   }
 </style>
 
-<!-- Updated Product List Section -->
-<div class="min-h-screen pt-20 bg-primary px-4 sm:px-6 lg:px-8">
-  <div class="max-w-7xl mx-auto">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-      {% for product in josh_item_entries %}
-        <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 max-w-sm mx-auto">
-          <!-- Product Image -->
-          <img src="{% static 'image/dummy-photo.jpg'%}" alt="{{ product.name }}" class="w-full h-48 object-cover rounded-lg mb-4">
-          
-          <!-- Product Info -->
-          <h3 class="text-xl font-semibold text-primary mb-2">{{ product.name }}</h3>
-          <p class="text-lg font-bold text-gray-800 mb-2">${{ product.price }}</p>
-          
-          <!-- Truncate Long Descriptions -->
-          <p class="text-gray-700 line-clamp-3 mb-4">
-            {{ product.description }}
-          </p>
+{% if not josh_item_entries %}
+  <div class="no-items-message text-center">
+    <!-- Adjusted image size with smaller height -->
+    <img src="{% static 'image/no-data.png' %}" alt="No items" class="mx-auto my-4 h-48 w-auto">
+    
+    <!-- Message -->
+    <p>Sadly, currently there's no item in the JOSH shop, add an item first please.</p>
 
-          <!-- Action Buttons -->
-          <div class="flex justify-between mt-4">
-            <a href="{% url 'main:edit_item' product.pk %}" class="bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800">
-              Edit
-            </a>
-            <a href="{% url 'main:delete_item' product.pk %}" class="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600">
-              Delete
-            </a>
-          </div>
-        </div>
-      {% endfor %}
-    </div>
-
-    <!-- Add New Item Button -->
-    <div class="mt-8 text-center">
-      <a href="{% url 'main:create_item_entry' %}" class="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800 inline-block">
-        Add New Item
+    <!-- Add New Item Button with space below -->
+    <div class="mt-8 mb-8 text-center">
+      <a href="{% url 'main:create_item_entry' %}" class="bg-black text-white px-6 py-2 rounded-lg">
+          Add New Item
       </a>
     </div>
+  </div>
+{% else %}
+  {% include 'product_list.html' %}
+{% endif %}
 
-    <!-- Last Login Session -->
-    <div class="mt-6 text-center">
-      <h5 class="text-sm text-gray-600">Last login session: {{ last_login }}</h5>
-    </div>
+
+
+<!-- Scrolling Logo Section -->
+<div class="scrolling-logo-container relative overflow-hidden h-24 bg-black">
+  <div class="scrolling-logo flex animate-scroll">
+    <img src="{% static 'image/JOSH_White.svg' %}" alt="Logo" class="h-24 mx-10">
+    <img src="{% static 'image/JOSH_White.svg' %}" alt="Logo" class="h-24 mx-10">
+    <img src="{% static 'image/JOSH_White.svg' %}" alt="Logo" class="h-24 mx-10">
+    <img src="{% static 'image/JOSH_White.svg' %}" alt="Logo" class="h-24 mx-10">
+    <img src="{% static 'image/JOSH_White.svg' %}" alt="Logo" class="h-24 mx-10">
+    <img src="{% static 'image/JOSH_White.svg' %}" alt="Logo" class="h-24 mx-10">
+    
+    <!-- Duplicate set to create a seamless loop -->
+    <img src="{% static 'image/JOSH_White.svg' %}" alt="Logo" class="h-24 mx-10">
+    <img src="{% static 'image/JOSH_White.svg' %}" alt="Logo" class="h-24 mx-10">
+    <img src="{% static 'image/JOSH_White.svg' %}" alt="Logo" class="h-24 mx-10">
+    <img src="{% static 'image/JOSH_White.svg' %}" alt="Logo" class="h-24 mx-10">
+    <img src="{% static 'image/JOSH_White.svg' %}" alt="Logo" class="h-24 mx-10">
+    <img src="{% static 'image/JOSH_White.svg' %}" alt="Logo" class="h-24 mx-10">
+  </div>
+</div>
+
+<!-- Author Section -->
+<div class="bg-black py-4">
+  <div class="text-center">
+    <h2 class="text-sm text-white">Joshua Hans Vito Soehendra - PBP A</h2>
+  </div>
+</div>
+
+<!-- Last Login Section -->
+<div class="bg-black py-4">
+  <div class="text-center">
+    <h5 class="text-sm text-white">Last login session: {{ last_login }}</h5>
   </div>
 </div>
 
 <style>
-  /* Center the grid cards with max width */
-.max-w-sm {
-  max-width: 350px;
+  /* Remove any gap between sections */
+.scrolling-logo-container {
+  margin-top: 0;
 }
 
-/* Limit description text to 3 lines and add ellipsis */
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
+/* Flex container for scrolling content */
+.scrolling-logo {
+  white-space: nowrap;
+  display: inline-flex;
+  width: 200%;
 }
 
-/* Styling the buttons */
-a {
-  text-align: center;
-  display: inline-block;
-  margin-right: 8px;
-}
-
-/* Fix the grid layout */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-}
-
-.grid img {
-  max-width: 100%;
-  height: auto;
-  object-fit: cover;
-}
-
-/* Hover Effect for Cards */
-.grid div:hover {
-  transform: scale(1.05);
-  transition: transform 0.3s ease;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
+/* Animation for scrolling */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
   }
 }
 
-@media (max-width: 640px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
+.animate-scroll {
+  animation: scroll 10s linear infinite; /* Adjust speed here */
 }
+
+/* Styling for the black background */
+.bg-black {
+  background-color: black;
+}
+
+.text-white {
+  color: white;
+}
+
 </style>
 
 <script>

@@ -80,6 +80,9 @@ crsf_token adalah token unik yang dihasilkan untuk setiap sesi dan juga disertak
 
 </details>
 
+<details>
+<summary><b>Tugas 4</b></summary>
+
 # Tugas 4
 
 ### 1. Apa perbedaan antara HttpResponseRedirect() dan redirect()
@@ -107,5 +110,57 @@ Django mengingat pengguna yang telah login melalui sistem sesi (session) yang me
 10. Di views.py saya juga memodifikasi `create_item_entry` untuk mengasosiasikan item dengan user yang sedang login sebelum disimpan ke database. Di `show_main` saya juga filter product yang akan ditampilkan berdasarkan user.
 11. Terakhir, saya melakukan migrations dan mengimport `os` dan mengganti variabel `DEBUG` pada `settings.py` agar siap untuk environment production.
 12. Tidak lupa saya juga membuat dua akun pengguna dan tiga dummy data di lokal.
+</details>
 
 
+# Tugas 5
+### 1. Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
+Jika terdapat beberapa CSS selector untuk suatu elemen HTML, maka akan diambil berdasarkan spesifisitasnya, yaitu:
+1. **Inline Styles**  
+   Gaya yang ditulis langsung pada elemen menggunakan atribut `style`.  
+   Contoh: `<div style="color: black;"></div>`
+2. **ID Selector**  
+   Selector yang menggunakan ID unik.  
+   Contoh: `#header { ... }`
+3. **Class, Attribute, dan Pseudo-class Selector**  
+   Selector yang menggunakan class, atribut, atau pseudo-class.  
+   Contoh: `.menu`, `[type="text"]`, `:hover`
+4. **Element dan Pseudo-element Selector**  
+   Selector yang menggunakan nama tag elemen atau pseudo-element.  
+   Contoh: `div`, `p::after`
+5. **Universal Selector dan Kombinator**  
+   Selector universal (`*`) dan kombinator seperti descendant, child, dll.  
+   Contoh: `*`, `div p`
+
+Jika spesifisitas sama, aturan CSS yang ditulis terakhir akan diterapkan.
+
+### 2. Mengapa responsive design menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan responsive design!
+Responsive design menjadi konsep penting dalam pengembangan aplikasi web karena memastikan tampilan dan fungsionalitas yang optimal di berbagai perangkat dan ukuran layar, mulai dari smartphone hingga desktop. Dengan meningkatnya penggunaan perangkat mobile, responsive design meningkatkan pengalaman pengguna, memperbaiki SEO, dan memungkinkan akses yang lebih luas. Contoh aplikasi yang sudah menerapkan responsive design adalah **YouTube**, yang menyesuaikan antarmuka mereka secara dinamis sesuai perangkat yang digunakan. Sebaliknya, beberapa aplikasi lama seperti **SIAKNG** atau beberapa portal berita tradisional belum sepenuhnya mengadopsi responsive design, sehingga tampilan mereka kurang optimal pada perangkat mobile dan mengakibatkan pengalaman pengguna yang kurang baik.
+
+
+### 3. Jelaskan perbedaan antara margin, border, dan padding, serta cara untuk mengimplementasikan ketiga hal tersebut!
+Margin, border, dan padding merupakan tiga komponen utama dalam model box CSS yang mengatur ruang dan batas suatu elemen. **Margin** adalah ruang di luar border yang memisahkan elemen dengan elemen lain, memberikan jarak antar elemen. **Border** adalah garis yang mengelilingi padding dan konten elemen, dapat disesuaikan ketebalan, jenis, dan warnanya. **Padding** adalah ruang di dalam border yang memisahkan konten elemen dari batasnya, memastikan konten tidak menempel langsung pada border. Ketiganya dapat diimplementasikan menggunakan properti CSS seperti `margin`, `border`, dan `padding`. Contoh cara mengimplementasikannya adalah seperti berikut:
+
+```css
+.element {
+    margin: 20px;        /* Mengatur jarak luar elemen */
+    border: 2px solid #333; /* Mengatur garis border elemen */
+    padding: 15px;       /* Mengatur jarak dalam elemen */
+}
+```
+
+### 4. Jelaskan konsep flex box dan grid layout beserta kegunaannya!
+Flexbox dan Grid Layout adalah dua sistem tata letak CSS yang memudahkan pengaturan elemen dalam halaman web. **Flexbox** (Flexible Box) dirancang untuk mengelola tata letak satu dimensi, baik dalam baris maupun kolom, memudahkan penyusunan, penyelarasan, dan distribusi ruang antar item secara fleksibel. Flexbox sangat berguna untuk navigasi, menu, atau elemen yang membutuhkan penyesuaian responsif dalam satu arah. **Grid Layout**, di sisi lain, memungkinkan pembuatan tata letak dua dimensi dengan mengatur baris dan kolom secara simultan, cocok untuk desain kompleks seperti layout halaman utama, galeri foto, atau dashboard aplikasi. Dengan memanfaatkan kedua konsep ini, kita dapat menciptakan desain yang responsif, terstruktur, dan mudah disesuaikan sesuai kebutuhan berbagai perangkat.
+
+### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+1. Yang pertama saya lakukan adalah menambahkan fungsi baru di `views.py` yaitu fungsi `edit_item` dan juga `delete_item` yang masing-masing berfungsi untuk mengedit data produk yang sudah ada dan juga menghapus produk yang ada. 
+2. Setelah mengimplementasikan fungsi tersebut, saya mengintegrasikan pathnya di `urls.py` pada main app. 
+3. Kemudian saya juga membuat folder static untuk tempat css dan juga gambar-gambar yang akan saya gunakan
+4. Setelah itu, saya mengubah `settings.py` untuk agar dapat menggunakan static files yang ada. 
+5. Saya mengubah `base.html` untuk dapat menggunakan tailwind css
+6. Selanjutnya saya membuat `navbar.html` yang akan saya gunakan pada `main.html`, dan `navbar2.html` yang saya gunakan di `edit_item.html` dan juga `create_item_entry.html`. Saya juga mengubah htmlnya agar sesuai dengan kemauan saya.
+7. Setelah itu saya mengedit bagian `main.html` dengan melakukan benchmarking ke website Dolce&Gabanna
+8. Saya juga membuat `product_list.html`yang akan menampilkan product yang sudah ditambahkan oleh sang user dan disini saya juga menambahkan button untuk edit dan delete pada setiap produk.
+9. Setelah itu, saya mengedit bagian `login.html` dan juga `register.html` agar sesuai dengan kemauan saya.
+10. Saya mendesain keseluruhan aplikasi saya dengan menggunakan tailwind css, saya juga mengedit global.css nya untuk mendefinisikan desain keseluruhan aplikasi. 
+11. Setelah itu, saya melakukan commit, dan push ke github dan pws. 
