@@ -1,62 +1,88 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block meta %}
+<title>Register</title>
+{% endblock meta %}
+
 {% block content %}
-{% include 'navbar.html' %}
+<div class="min-h-screen flex items-start justify-start w-screen py-12 px-4 sm:px-6 lg:px-8 relative">
+  <!-- Video Background -->
+  <video autoplay loop muted playsinline class="absolute top-0 left-0 w-full h-full object-cover z-0">
+    <source src="{% static 'video/video-login.webm' %}" type="video/webm">
+    Your browser does not support the video tag.
+  </video>
 
-<!-- Full width and height for the outer container -->
-<div class="min-h-screen pt-20 bg-primary-color flex justify-center items-start">
-  <!-- Full width white container with padding for better centering -->
-  <div class="w-full max-w-4xl bg-white shadow-lg rounded-lg p-8 mx-4 sm:mx-6 lg:mx-8">
-    <h1 class="text-3xl font-bold text-primary text-center">JOSH APP</h1>
+  <!-- Black Overlay -->
+  <div class="absolute top-0 left-0 w-full h-full bg-black opacity-50 z-1"></div>
 
-    <div class="text-center mb-8">
-      <h5 class="text-lg font-semibold text-gray-700">NPM: 2306165540</h5>
-      <h5 class="text-lg font-semibold text-gray-700">Name: Joshua Hans Vito Soehendra</h5>
-      <h5 class="text-lg font-semibold text-gray-700">Class: PBP A</h5>
+  <div class="max-w-md w-full space-y-8 p-10 z-10 relative">
+    <!-- Logo -->
+    <div class="text-left">
+      <a href="/" class="flex justify-start mb-6">
+        <img src="{% static 'image/JOSH_White.svg' %}" alt="JOSH Logo" class="h-32 w-auto"> <!-- Increased the logo size -->
+      </a>
+      <h1 class="font-semibold text-xl text-gray-100">
+        Create Your Account
+      </h1>
     </div>
 
-    {% if not josh_item_entries %}
-    <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
-      <img src="{% static 'image/no-data.png' %}" alt="Sad face" class="w-32 h-32 mb-4" />
-      <p class="text-center text-gray-600 mt-4">No data available for items in the JOSH App.</p>
-    </div>
-    {% else %}
-      <h2 class="text-2xl font-bold text-primary mb-6">Product List</h2>
+    <!-- Form -->
+    <form class="mt-8 space-y-6" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="remember" value="true">
 
-      <div class="grid gap-6 sm:grid-cols-2">
-        {% for product in josh_item_entries %}
-          <div class="card">
-            <h3 class="text-xl font-semibold text-primary">Product Name: {{ product.name }}</h3>
-            <p class="text-gray-700">Price: {{ product.price }}</p>
-            <p class="text-gray-700">Description: {{ product.description }}</p>
-            <p class="text-gray-700">Quantity: {{ product.quantity }}</p>
-
-            <div class="mt-4 flex justify-between">
-              <a href="{% url 'main:edit_item' product.pk %}" class="bg-accent-color text-white px-4 py-2 rounded-lg hover:bg-accent-color-dark">
-                Edit
-              </a>
-              <a href="{% url 'main:delete_item' product.pk %}" class="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 ml-4">
-                Delete
-              </a>
+      <!-- Input Fields -->
+      <div class="space-y-6">
+        {% for field in form %}
+          <div class="relative">
+            <label for="{{ field.id_for_label }}" class="text-white">{{ field.label }}</label>
+            <div class="relative">
+              {{ field }}
+              <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                {% if field.errors %}
+                  <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                  </svg>
+                {% endif %}
+              </div>
             </div>
+            {% if field.errors %}
+              {% for error in field.errors %}
+                <p class="mt-1 text-sm text-red-600">{{ error }}</p>
+              {% endfor %}
+            {% endif %}
           </div>
         {% endfor %}
       </div>
+
+      <!-- Submit Button -->
+      <div class="flex justify-start w-full">
+        <button type="submit" class="w-full py-3 px-0 border border-transparent rounded-lg text-white bg-gold flex justify-start items-center">
+          Register
+        </button>
+      </div>
+    </form>
+
+    <!-- Error Messages -->
+    {% if messages %}
+    <div class="mt-4">
+      {% for message in messages %}
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline">{{ message }}</span>
+      </div>
+      {% endfor %}
+    </div>
     {% endif %}
 
-    <div class="mt-8 text-center">
-      <a href="{% url 'main:create_item_entry' %}" class="bg-accent-color text-white px-6 py-2 rounded-lg hover:bg-accent-color-dark">
-        Add New Item
-      </a>
-      <a href="{% url 'main:logout' %}" class="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 ml-4">
-        Logout
-      </a>
-    </div>
-
-    <div class="mt-6 text-center">
-      <h5 class="text-sm text-gray-600">Last login session: {{ last_login }}</h5>
+    <!-- Login Link -->
+    <div class="text-left mt-4 w-full">
+      <p class="text-sm text-gray-400">
+        Already have an account?
+        <a href="{% url 'main:login' %}" class="font-medium text-gold hover:text-gold-dark transition-colors">
+          Login here
+        </a>
+      </p>
     </div>
   </div>
 </div>
-
 {% endblock content %}
