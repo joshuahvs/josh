@@ -1,0 +1,132 @@
+/* Global Font Settings */
+body {
+    font-family: 'Futura', sans-serif;
+    color: var(--primary-color);
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Luxury Color Palette */
+:root {
+    --primary-color: #000000; /* Dark elegant shade */
+    --accent-color: #a67c00;  /* Gold accents for a luxury feel */
+    --bg-color: #ffffff;      /* Clean white background */
+    --border-color: #d4d4d4;  /* Subtle sophisticated borders */
+    --hover-color: #000000;   /* Deep black for hover effects */
+}
+
+/* Luxury Styling for Form Inputs, Textareas, Selects */
+.form-style form input, 
+.form-style form textarea, 
+.form-style form select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--border-color);
+    border-radius: 0.5rem;
+    background-color: var(--bg-color);
+    font-family: 'Futura', sans-serif;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-style form input:focus, 
+.form-style form textarea:focus, 
+.form-style form select:focus {
+    outline: none;
+    border-color: var(--accent-color); /* Gold focus border */
+    box-shadow: 0 0 4px rgba(166, 124, 0, 0.2); /* Soft gold glow */
+}
+
+/* Luxury Button Styles */
+button {
+    background-color: var(--primary-color);
+    color: #ffffff;  /* White text for better contrast */
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-family: 'Futura', sans-serif;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+}
+
+button:hover {
+    text-decoration: underline;
+    font-size: medium;
+    transform: translateY(-2px); /* Subtle elevation effect */
+}
+
+/* Shine Animation for Buttons */
+button.animate-shine {
+    background-color: var(--primary-color);
+    background-image: linear-gradient(120deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.3));
+    background-size: 200% 100%;
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* Luxury Typography for Headings */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Futura', sans-serif;
+    color: var(--primary-color);
+    letter-spacing: -0.02em; /* Slightly tighter letter spacing for sophistication */
+    margin: 0.5em 0;
+}
+
+/* Luxury Links */
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+/* Container for Layout */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+/* Luxury Footer Styles */
+footer {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    padding: 2rem 0;
+    text-align: center;
+    font-family: 'Futura', sans-serif;
+}
+
+footer a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: var(--accent-color); /* Gold hover in footer */
+}
+
+/* Luxury Card Styles */
+.card {
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Softer shadow for elegance */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Lift effect */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); /* Deeper shadow on hover */
+}

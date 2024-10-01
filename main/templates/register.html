@@ -1,32 +1,62 @@
 {% extends 'base.html' %}
-
-{% block meta %}
-<title>Register</title>
-{% endblock meta %}
-
+{% load static %}
 {% block content %}
+{% include 'navbar.html' %}
 
-<div class="login">
-  <h1>Register</h1>
+<!-- Full width and height for the outer container -->
+<div class="min-h-screen pt-20 bg-primary-color flex justify-center items-start">
+  <!-- Full width white container with padding for better centering -->
+  <div class="w-full max-w-4xl bg-white shadow-lg rounded-lg p-8 mx-4 sm:mx-6 lg:mx-8">
+    <h1 class="text-3xl font-bold text-primary text-center">JOSH APP</h1>
 
-  <form method="POST">
-    {% csrf_token %}
-    <table>
-      {{ form.as_table }}
-      <tr>
-        <td></td>
-        <td><input type="submit" name="submit" value="Daftar" /></td>
-      </tr>
-    </table>
-  </form>
+    <div class="text-center mb-8">
+      <h5 class="text-lg font-semibold text-gray-700">NPM: 2306165540</h5>
+      <h5 class="text-lg font-semibold text-gray-700">Name: Joshua Hans Vito Soehendra</h5>
+      <h5 class="text-lg font-semibold text-gray-700">Class: PBP A</h5>
+    </div>
 
-  {% if messages %}
-  <ul>
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-  </ul>
-  {% endif %}
+    {% if not josh_item_entries %}
+    <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+      <img src="{% static 'image/no-data.png' %}" alt="Sad face" class="w-32 h-32 mb-4" />
+      <p class="text-center text-gray-600 mt-4">No data available for items in the JOSH App.</p>
+    </div>
+    {% else %}
+      <h2 class="text-2xl font-bold text-primary mb-6">Product List</h2>
+
+      <div class="grid gap-6 sm:grid-cols-2">
+        {% for product in josh_item_entries %}
+          <div class="card">
+            <h3 class="text-xl font-semibold text-primary">Product Name: {{ product.name }}</h3>
+            <p class="text-gray-700">Price: {{ product.price }}</p>
+            <p class="text-gray-700">Description: {{ product.description }}</p>
+            <p class="text-gray-700">Quantity: {{ product.quantity }}</p>
+
+            <div class="mt-4 flex justify-between">
+              <a href="{% url 'main:edit_item' product.pk %}" class="bg-accent-color text-white px-4 py-2 rounded-lg hover:bg-accent-color-dark">
+                Edit
+              </a>
+              <a href="{% url 'main:delete_item' product.pk %}" class="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 ml-4">
+                Delete
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="mt-8 text-center">
+      <a href="{% url 'main:create_item_entry' %}" class="bg-accent-color text-white px-6 py-2 rounded-lg hover:bg-accent-color-dark">
+        Add New Item
+      </a>
+      <a href="{% url 'main:logout' %}" class="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 ml-4">
+        Logout
+      </a>
+    </div>
+
+    <div class="mt-6 text-center">
+      <h5 class="text-sm text-gray-600">Last login session: {{ last_login }}</h5>
+    </div>
+  </div>
 </div>
 
 {% endblock content %}

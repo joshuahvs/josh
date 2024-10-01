@@ -1,47 +1,229 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
+{% include 'navbar.html' %}
 
-<h1>JOSH APP</h1>
+<!-- Carousel Section -->
+<div class="carousel-container h-screen md:h-auto relative">
+  <div class="carousel flex h-full transition-transform duration-1000 ease-in-out">
+    <div class="min-w-full h-full">
+      <img src="{% static 'image/picture1.jpg' %}" alt="Carousel 1" class="w-full h-full object-cover">
+    </div>
+    <div class="min-w-full h-full">
+      <img src="{% static 'image/picture2.jpg' %}" alt="Carousel 2" class="w-full h-full object-cover">
+    </div>
+    <div class="min-w-full h-full">
+      <img src="{% static 'image/picture3.jpg' %}" alt="Carousel 3" class="w-full h-full object-cover">
+    </div>
+  </div>
 
-<h5>NPM: 2306165540 </h5>
-<h5>Name: Joshua Hans Vito Soehendra </h5>
-<h5>Class: PBP A </h5>
-
-{% if not josh_item_entries %}
-<p>Belum ada data barang pada JOSH App.</p>
-{% else %}
-
-<h2>Product List</h2>
-
-{% for product in josh_item_entries %}
-<div class="card">
-  <h3>Product Name: {{ product.name }}</h3>
-    <p>Price: {{ product.price }}</p>
-    <p>Description: {{ product.description }}</p>
-    <p>Quantity: {{ product.quantity }}</p>
-    <a href="{% url 'main:edit_item' product.pk %}">
-      <button>
-          Edit
-      </button>
-    </a>
-    <a href="{% url 'main:logout' %}">
-      <button>Logout</button>
-    </a>
+  <!-- Previous and Next buttons -->
+  <button class="absolute top-1/2 left-4 transform -translate-y-1/2 text-white p-2 rounded-full" id="prev">
+    &#10094;
+  </button>
+  <button class="absolute top-1/2 right-4 transform -translate-y-1/2 text-white p-2 rounded-full" id="next">
+    &#10095;
+  </button>
 </div>
-{% endfor %}
 
-{% endif %}
 
-<br />
+<!-- Scrolling Logo Section -->
+<div class="scrolling-logo-container relative overflow-hidden h-24 bg-white">
+  <div class="scrolling-logo flex animate-scroll">
+    <img src="{% static 'image/JOSH_Black.svg' %}" alt="Logo" class="h-24 mx-10">
+    <img src="{% static 'image/JOSH_Black.svg' %}" alt="Logo" class="h-24 mx-10">
+    <img src="{% static 'image/JOSH_Black.svg' %}" alt="Logo" class="h-24 mx-10">
+    <img src="{% static 'image/JOSH_Black.svg' %}" alt="Logo" class="h-24 mx-10">
+    <img src="{% static 'image/JOSH_Black.svg' %}" alt="Logo" class="h-24 mx-10">
+    <img src="{% static 'image/JOSH_Black.svg' %}" alt="Logo" class="h-24 mx-10">
+    
+    <!-- Duplicate set to create a seamless loop -->
+    <img src="{% static 'image/JOSH_Black.svg' %}" alt="Logo" class="h-24 mx-10">
+    <img src="{% static 'image/JOSH_Black.svg' %}" alt="Logo" class="h-24 mx-10">
+    <img src="{% static 'image/JOSH_Black.svg' %}" alt="Logo" class="h-24 mx-10">
+    <img src="{% static 'image/JOSH_Black.svg' %}" alt="Logo" class="h-24 mx-10">
+    <img src="{% static 'image/JOSH_Black.svg' %}" alt="Logo" class="h-24 mx-10">
+    <img src="{% static 'image/JOSH_Black.svg' %}" alt="Logo" class="h-24 mx-10">
+  </div>
+</div>
 
-<a href="{% url 'main:create_item_entry' %}">
-  <button>Add New Item</button>
-</a>
+<style>
+  /* Remove gap between sections */
+  .scrolling-logo-container {
+    margin-top: 0;
+  }
 
-<a href="{% url 'main:logout' %}">
-  <button>Logout</button>
-</a>
+  /* Ensure the scrolling logos are always in a single line */
+  .scrolling-logo {
+    white-space: nowrap;
+  }
 
-<h5>Sesi terakhir login: {{ last_login }}</h5>
+  /* Animate scrolling smoothly without gaps */
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-scroll {
+    animation: scroll 10s linear infinite; /* Adjust speed here */
+  }
+
+  /* Ensure the container is exactly twice the width of its contents for seamless loop */
+  .scrolling-logo {
+    display: inline-flex;
+    width: 200%;
+  }
+</style>
+
+<!-- Updated Product List Section -->
+<div class="min-h-screen pt-20 bg-primary px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      {% for product in josh_item_entries %}
+        <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 max-w-sm mx-auto">
+          <!-- Product Image -->
+          <img src="{% static 'image/dummy-photo.jpg'%}" alt="{{ product.name }}" class="w-full h-48 object-cover rounded-lg mb-4">
+          
+          <!-- Product Info -->
+          <h3 class="text-xl font-semibold text-primary mb-2">{{ product.name }}</h3>
+          <p class="text-lg font-bold text-gray-800 mb-2">${{ product.price }}</p>
+          
+          <!-- Truncate Long Descriptions -->
+          <p class="text-gray-700 line-clamp-3 mb-4">
+            {{ product.description }}
+          </p>
+
+          <!-- Action Buttons -->
+          <div class="flex justify-between mt-4">
+            <a href="{% url 'main:edit_item' product.pk %}" class="bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800">
+              Edit
+            </a>
+            <a href="{% url 'main:delete_item' product.pk %}" class="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600">
+              Delete
+            </a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Add New Item Button -->
+    <div class="mt-8 text-center">
+      <a href="{% url 'main:create_item_entry' %}" class="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800 inline-block">
+        Add New Item
+      </a>
+    </div>
+
+    <!-- Last Login Session -->
+    <div class="mt-6 text-center">
+      <h5 class="text-sm text-gray-600">Last login session: {{ last_login }}</h5>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Center the grid cards with max width */
+.max-w-sm {
+  max-width: 350px;
+}
+
+/* Limit description text to 3 lines and add ellipsis */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Styling the buttons */
+a {
+  text-align: center;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+/* Fix the grid layout */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.grid img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Hover Effect for Cards */
+.grid div:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<script>
+  const carousel = document.querySelector('.carousel');
+  const prevButton = document.getElementById('prev');
+  const nextButton = document.getElementById('next');
+  
+  let index = 0;
+
+  // Function to update carousel
+  const updateCarousel = () => {
+    const width = carousel.clientWidth;
+    carousel.style.transform = `translateX(-${index * width}px)`;
+  };
+
+  // Next button click event
+  nextButton.addEventListener('click', () => {
+    const totalItems = carousel.children.length;
+    if (index < totalItems - 1) {
+      index++;
+    } else {
+      index = 0; // Loop back to first slide
+    }
+    updateCarousel();
+  });
+
+  // Previous button click event
+  prevButton.addEventListener('click', () => {
+    const totalItems = carousel.children.length;
+    if (index > 0) {
+      index--;
+    } else {
+      index = totalItems - 1; // Loop to last slide
+    }
+    updateCarousel();
+  });
+
+  // Auto-slide every 5 seconds
+  setInterval(() => {
+    const totalItems = carousel.children.length;
+    if (index < totalItems - 1) {
+      index++;
+    } else {
+      index = 0;
+    }
+    updateCarousel();
+  }, 5000);
+</script>
 
 {% endblock content %}

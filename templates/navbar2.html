@@ -1,0 +1,59 @@
+{% load static %}
+<nav id="navbar" class="fixed top-0 left-0 z-50 w-full transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-center">
+
+        <!-- Desktop Logo (hidden on mobile, white logo before scroll) -->
+        <div class="hidden md:flex justify-start items-center h-20">
+            <a href="/" class="flex items-center">
+                <img id="logo" src="{% static 'image/JOSH_White.svg' %}" alt="JOSH Logo" class="h-16 w-auto object-contain"> <!-- White logo before scroll -->
+            </a>
+        </div>
+
+        <!-- Authentication Buttons (Welcome/Logout) on the right for desktop -->
+        <div id="auth-links" class="hidden md:flex justify-end items-center space-x-6 absolute right-4 top-0 h-full text-white"> <!-- White text before scroll -->
+            {% if user.is_authenticated %}
+                <span id="welcome-text" class="text-white-200 mr-6 italic">Welcome, {{ user.username }}</span> <!-- Gray text for welcome -->
+                <a href="{% url 'main:logout' %}" class="hover:text-gray-300 font-medium">
+                    Logout
+                </a>
+            {% else %}
+                <a href="{% url 'main:login' %}" class="hover:text-gray-300 font-medium">
+                    Login
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Mobile Hamburger Menu -->
+    <div class="md:hidden px-4 w-full h-20 flex items-center justify-between">
+        <!-- Logo on the left for mobile (default white before scroll) -->
+        <a href="/" class="flex items-center">
+            <img id="mobile-logo" src="{% static 'image/JOSH_White.svg' %}" alt="JOSH Logo" class="h-12 w-auto object-contain"> <!-- White logo for mobile -->
+        </a>
+
+        <!-- Hamburger button on the right for mobile -->
+        <button class="mobile-menu-button focus:outline-none">
+            <svg class="w-8 h-8 text-white" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Mobile Menu (initially hidden) -->
+    <div class="mobile-menu hidden flex-col px-4 w-full bg-white text-center shadow-lg">
+        <!-- Authentication Links for Mobile -->
+        <div class="py-4 space-y-4">
+            {% if user.is_authenticated %}
+                <span class="block text-gray-800 italic">Welcome, {{ user.username }}</span>
+                <a href="{% url 'main:logout' %}" class="block text-gray-800 hover:text-black font-medium">
+                    Logout
+                </a>
+            {% else %}
+                <a href="{% url 'main:login' %}" class="block text-gray-800 hover:text-black font-medium">
+                    Login
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+

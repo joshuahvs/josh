@@ -1,0 +1,126 @@
+{% load static %}
+<nav id="navbar" class="fixed top-0 left-0 z-50 w-full transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-center">
+
+        <!-- Desktop Logo (hidden on mobile, white logo before scroll) -->
+        <div class="hidden md:flex justify-center items-center h-20">
+            <a href="/" class="flex items-center">
+                <img id="logo" src="{% static 'image/JOSH_White.svg' %}" alt="JOSH Logo" class="h-16 w-auto object-contain"> <!-- White logo before scroll -->
+            </a>
+        </div>
+
+        <!-- Navigation Links centered under the logo for desktop -->
+        <div id="nav-links" class="hidden md:flex justify-center space-x-8 items-center text-white"> <!-- White text before scroll -->
+            <a href="#" class=>Women</a>
+            <a href="#">Men</a>
+            <a href="#">Children</a>
+            <a href="#">Casa</a>
+            <a href="#">Beauty</a>
+            <a href="#">Alta Moda</a>
+        </div>
+
+        <!-- Authentication Buttons (Login/Logout) on the right for desktop -->
+        <div id="auth-links" class="hidden md:flex justify-end items-center space-x-6 absolute right-4 top-0 h-full text-white"> <!-- White text before scroll -->
+            {% if user.is_authenticated %}
+                <span id="welcome-text" class="text-white-200 mr-6 italic">Welcome, {{ user.username }}</span> <!-- Gray text for welcome -->
+                <a href="{% url 'main:logout' %}" class="hover:text-gray-300 font-medium">
+                    Logout
+                </a>
+            {% else %}
+                <a href="{% url 'main:login' %}" class="hover:text-gray-300 font-medium">
+                    Login
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Mobile Hamburger Menu -->
+    <div class="md:hidden px-4 w-full h-20 flex items-center justify-between">
+        <!-- Logo on the left for mobile (default white before scroll) -->
+        <a href="/" class="flex items-center">
+            <img id="mobile-logo" src="{% static 'image/JOSH_White.svg' %}" alt="JOSH Logo" class="h-12 w-auto object-contain"> <!-- White logo for mobile -->
+        </a>
+
+        <!-- Hamburger button on the right for mobile -->
+        <button class="mobile-menu-button focus:outline-none">
+            <svg id="hamburger-icon" class="w-8 h-8 text-white" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Mobile Menu (initially hidden) -->
+    <div class="mobile-menu hidden flex-col px-4 w-full bg-white text-center shadow-lg">
+        <!-- Authentication Links for Mobile -->
+        <div class="py-4 space-y-4">
+            {% if user.is_authenticated %}
+                <span class="block text-gray-800 italic">Welcome, {{ user.username }}</span>
+                <a href="{% url 'main:logout' %}" class="block text-gray-800 hover:text-black font-medium">
+                    Logout
+                </a>
+            {% else %}
+                <a href="{% url 'main:login' %}" class="block text-gray-800 hover:text-black font-medium">
+                    Login
+                </a>
+            {% endif %}
+        </div>
+
+        <!-- Navigation Links for Mobile -->
+        <div class="pb-6 space-y-4">
+            <a href="#" class="block text-black font-medium hover:text-gray-600">Women</a>
+            <a href="#" class="block text-black font-medium hover:text-gray-600">Men</a>
+            <a href="#" class="block text-black font-medium hover:text-gray-600">Children</a>
+            <a href="#" class="block text-black font-medium hover:text-gray-600">Casa</a>
+            <a href="#" class="block text-black font-medium hover:text-gray-600">Beauty</a>
+            <a href="#" class="block text-black font-medium hover:text-gray-600">Alta Moda</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const btn = document.querySelector(".mobile-menu-button");
+            const menu = document.querySelector(".mobile-menu");
+            const navbar = document.getElementById('navbar');
+            const navLinks = document.getElementById('nav-links');
+            const authLinks = document.getElementById('auth-links');
+            const logo = document.getElementById('logo');
+            const mobileLogo = document.getElementById('mobile-logo');
+            const welcomeText = document.getElementById('welcome-text');
+            const hamburgerIcon = document.getElementById('hamburger-icon'); // Get the hamburger icon
+
+            // Toggle mobile menu visibility
+            btn.addEventListener("click", function() {
+                menu.classList.toggle("hidden");
+            });
+
+            // Detect scrolling and change colors for logo, navigation links, and hamburger menu
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) { // Adjust the scroll threshold as needed
+                    navbar.classList.add('bg-white', 'bg-opacity-100', 'shadow-md');
+                    navLinks.classList.remove('text-white');
+                    navLinks.classList.add('text-black');
+                    authLinks.classList.remove('text-white');
+                    authLinks.classList.add('text-black');
+                    welcomeText.classList.add('text-black');
+                    welcomeText.classList.remove('text-white');
+                    logo.src = "{% static 'image/JOSH_Black.svg' %}"; // Change to black logo
+                    mobileLogo.src = "{% static 'image/JOSH_Black.svg' %}"; // Change mobile logo to black
+                    hamburgerIcon.classList.remove('text-white');
+                    hamburgerIcon.classList.add('text-black'); // Change hamburger icon to black
+                } else {
+                    navbar.classList.remove('bg-white', 'bg-opacity-100', 'shadow-md');
+                    navLinks.classList.remove('text-black');
+                    navLinks.classList.add('text-white');
+                    authLinks.classList.remove('text-black');
+                    authLinks.classList.add('text-white');
+                    welcomeText.classList.remove('text-black');
+                    welcomeText.classList.add('text-white');
+                    logo.src = "{% static 'image/JOSH_White.svg' %}"; // Change back to white logo
+                    mobileLogo.src = "{% static 'image/JOSH_White.svg' %}"; // Change mobile logo back to white
+                    hamburgerIcon.classList.remove('text-black');
+                    hamburgerIcon.classList.add('text-white'); // Change hamburger icon back to white
+                }
+            });
+        });
+    </script>
+</nav>
