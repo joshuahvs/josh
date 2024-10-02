@@ -2,11 +2,18 @@
 body {
     font-family: 'Futura', sans-serif;
     color: var(--primary-color);
-    background-color: #f4f4f4;
+    background-color: #000000;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+} 
+  
 
 /* Luxury Color Palette */
 :root {
@@ -96,37 +103,4 @@ a:hover {
     max-width: 1200px;
     margin: 0 auto;
     padding: 1rem;
-}
-
-/* Luxury Footer Styles */
-footer {
-    background-color: var(--primary-color);
-    color: #ffffff;
-    padding: 2rem 0;
-    text-align: center;
-    font-family: 'Futura', sans-serif;
-}
-
-footer a {
-    color: #ffffff;
-    text-decoration: none;
-}
-
-footer a:hover {
-    color: var(--accent-color); /* Gold hover in footer */
-}
-
-/* Luxury Card Styles */
-.card {
-    background-color: var(--bg-color);
-    border: 1px solid var(--border-color);
-    border-radius: 0.5rem;
-    padding: 1.5rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Softer shadow for elegance */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px); /* Lift effect */
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); /* Deeper shadow on hover */
 }
