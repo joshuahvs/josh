@@ -1,6 +1,13 @@
+{% load static %}
 <!-- Footer Section -->
 <footer class="footer bg-black text-white py-8">
   <div class="container mx-auto text-center">
+    
+    <!-- Logo Section -->
+    <div class="logo mb-6">
+      <img src="{% static 'image/JOSH_White.svg' %}" alt="Logo" class="mx-auto w-32"> <!-- Replace with your logo path -->
+    </div>
+
     <!-- Social Media Links -->
     <div class="social-icons mb-6">
       <a href="#" class="inline-block mx-4 text-xl text-gray-400 hover:text-white transition duration-300">
@@ -38,6 +45,10 @@
 <style>
   .footer {
     background-color: #000;
+  }
+
+  .logo img {
+    max-width: 150px; /* Adjust size as needed */
   }
 
   .social-icons a {
