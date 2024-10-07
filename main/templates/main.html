@@ -131,6 +131,7 @@
     </div>
     <!-- Modal body -->
     <div class="px-6 py-4 space-y-6 form-style">
+      <div id="errorMessage" class="hidden text-red-600 text-sm mb-4"></div>
       <form id="itemEntryForm">
         <div class="mb-4">
           <label for="name" class="block text-sm font-medium text-gray-700">Item Name</label>
@@ -185,7 +186,7 @@
           classNameString = "flex flex-col items-center justify-center min-h-[24rem] p-6";
           htmlString = `
               <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
-                  <img src="{% static 'image/sedih-banget.png' %}" alt="Sad face" class="w-32 h-32 mb-4"/>
+                  <img src="{% static 'image/no-data.png' %}" alt="Sad face" class="w-32 h-32 mb-4"/>
                   <p class="text-center text-gray-600 mt-4">Belum ada data item pada mental health tracker.</p>
               </div>
           `;
@@ -281,10 +282,46 @@
     return false;
   }
 
+  async function addItemEntry() {
+    const form = document.getElementById('itemEntryForm');
+    const errorMessage = document.getElementById('errorMessage');
+    const formData = new FormData(form); // Ambil data dari form
+
+    try {
+        const response = await fetch("{% url 'main:add_item_entry_ajax' %}", {
+            method: "POST",
+            headers: {
+                "X-Requested-With": "XMLHttpRequest" // Pastikan ini ditambahkan untuk AJAX requests
+            },
+            body: formData,
+        });
+
+        if (!response.ok) {
+            // Jika respons gagal, tampilkan pesan error
+            const data = await response.json();
+            errorMessage.innerHTML = data.error || 'An error occurred while adding the item.';
+            errorMessage.classList.remove('hidden');
+            return;
+        }
+
+        // Jika berhasil, sembunyikan pesan error (jika ada), refresh daftar item dan reset form
+        errorMessage.classList.add('hidden');
+        await refreshItemEntries(); // Refresh data yang ada di halaman
+        form.reset(); // Reset form setelah berhasil menambahkan item
+        hideModal(); // Sembunyikan modal
+
+    } catch (error) {
+        // Jika terjadi error lain, tampilkan pesan error
+        errorMessage.innerHTML = 'An error occurred: ' + error.message;
+        errorMessage.classList.remove('hidden');
+    }
+  }
+
 
   document.getElementById("itemEntryForm").addEventListener("submit", (e) => {
     e.preventDefault();
     addItemEntry();
+    hideModal();
   })
 </script>
 

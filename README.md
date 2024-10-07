@@ -113,6 +113,9 @@ Django mengingat pengguna yang telah login melalui sistem sesi (session) yang me
 </details>
 
 
+<details>
+<summary><b>Tugas 5</b></summary>
+
 # Tugas 5
 ### 1. Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
 Jika terdapat beberapa CSS selector untuk suatu elemen HTML, maka akan diambil berdasarkan spesifisitasnya, yaitu:
@@ -164,3 +167,31 @@ Flexbox dan Grid Layout adalah dua sistem tata letak CSS yang memudahkan pengatu
 9. Setelah itu, saya mengedit bagian `login.html` dan juga `register.html` agar sesuai dengan kemauan saya.
 10. Saya mendesain keseluruhan aplikasi saya dengan menggunakan tailwind css, saya juga mengedit global.css nya untuk mendefinisikan desain keseluruhan aplikasi. 
 11. Setelah itu, saya melakukan commit, dan push ke github dan pws. 
+</details>
+
+
+
+# Tugas 6
+
+### 1. Jelaskan manfaat dari penggunaan JavaScript dalam pengembangan aplikasi web!
+Manfaat JavaScript dalam pengembangan aplikasi web adalah membantu membuat aplikasi menjadi lebih interaktif dan dinamis. Dengan JavaScript, kita bisa membuat halaman yang lebih hidup, misalnya dengan menambahkan animasi, validasi form otomatis, dan tombol yang merespon langsung tanpa harus memuat ulang halaman. Selain itu, JavaScript memungkinkan pengolahan data di sisi pengguna (di browser), sehingga pengguna bisa melihat hasil interaksi mereka tanpa perlu menunggu server merespon. JavaScript juga sangat dapat menangani komunikasi asinkron menggunakan AJAX atau `fetch()`, yang memungkinkan kita mengambil data dari server tanpa harus me-refresh seluruh halaman, sehingga pengalaman pengguna menjadi lebih cepat dan lancar.
+
+### 2. Jelaskan fungsi dari penggunaan await ketika kita menggunakan fetch()! Apa yang akan terjadi jika kita tidak menggunakan await?
+Penggunaan await saat memakai fetch() adalah untuk menunggu hasil dari permintaan data sebelum melanjutkan eksekusi kode. `fetch()` sendiri adalah fungsi asinkron yang digunakan untuk mengambil data dari server, tapi hasilnya tidak langsung didapatkan, melainkan berupa promise (janji bahwa datanya akan datang nanti). Dengan menambahkan await, kita memastikan bahwa kode lain tidak berjalan dulu sebelum data dari server sudah diterima sepenuhnya. Jika kita tidak menggunakan await, kode akan terus berjalan seperti biasa, dan ini bisa menyebabkan error jika kita mencoba memproses data yang sebenarnya belum ada.
+
+### 3. Mengapa kita perlu menggunakan decorator csrf_exempt pada view yang akan digunakan untuk AJAX POST?
+Django menggunakan token CSRF sebagai lapisan keamanan untuk memastikan bahwa setiap permintaan POST berasal dari sumber yang sah. Tapi dalam beberapa kasus, seperti saat menggunakan AJAX untuk mengirimkan data, token CSRF mungkin tidak dikirimkan dengan benar. Dengan menggunakan decorator `csrf_exempt`, kita mengizinkan request AJAX POST masuk tanpa memerlukan pengecekan token CSRF, sehingga tidak diblokir oleh server. Namun, ini harus dilakukan hati-hati karena bisa membuka celah keamanan jika tidak diatur dengan benar.
+
+### 4. Pada tutorial PBP minggu ini, pembersihan data input pengguna dilakukan di belakang (backend) juga. Mengapa hal tersebut tidak dilakukan di frontend saja?
+Pembersihan data tetap dilakukan di backend meskipun sudah ada validasi di frontend adalah untuk keamanan. Validasi di frontend itu penting juga untuk pengalaman pengguna yang lebih baik, tapi data bisa saja dimanipulasi oleh orang yang punya niat buruk menggunakan alat-alat pengembang di browser mereka. Kalau kita hanya mengandalkan validasi di frontend, aplikasi kita akan rentan terhadap serangan seperti injeksi SQL atau XSS (cross-site scripting). Backend perlu memastikan bahwa data yang diterima aman dan sesuai dengan yang diharapkan, karena di sinilah kita bisa benar-benar mengontrol proses sebelum data disimpan atau diproses lebih lanjut.
+
+### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+1. Yang pertama saya lakukan adalah menambahkan fungsi baru yaitu `add_item_entry_ajax` pada `views.py`. Ini adalah method utama yang digunakan untuk menambahkan item baru menggunakan ajax dan menambahkan item barunya ke dalam basis data.
+2. Lalu, saya mengonfigurasi pathnya di `urls.py`
+3. Selanjutnya pada `main.html` saya mengganti kode yang menampilkan product list sebelumnya dengan `<div id="item_entry_cards"></div>`. Lalu saya juga menambahkan modal, yaitu form yang akan muncul sebagai pop up ketika nanti saya ingin menambahkan sebuah item.
+4. Saya juga menambahkan button baru untuk add new item menggunakan ajax.
+5. Lalu saya membuat fungsi javascript pada `main.html`. Fungsi yang saya tambahkan pertama adalah `showModal()` dan juga `hideModal()`. Ini adalah fungsi javascript yang akan membantu menampilkan form modal, dan juga menghide modal.
+6. Selanjutnya ada fungsi `getItemEntries()` yang akan me-fetch data dan mengubahnya menjadi object javascrip dan `refreshItemEntries()` yang nantinya akan merefresh data item yang akan ditampilkan di web secara ansikronus.
+7. Selanjutnya, saya menambahkan `addItemEntry()` yang mengambil data dari form modal, dan menambahkannya ke database untuk ditampilkan, dan merefresh content (bukan page) dengan memanggil ``refreshItemEntries()`.
+8. Saya juga menambahkan beberapa eventListener yang akan memanggil fungsi-fungsi yang sudah saya buat. Misalnya, ketika form di submit, maka akan memanggil fungsi `addItemEntry()`. 
+9. Untuk memastikan keamanan program, saya juga melakukan strip_tags untuk membersihkan data baru dan DOMPurify untuk membersihkan data di front end. 
