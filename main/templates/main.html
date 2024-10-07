@@ -268,61 +268,67 @@
   document.getElementById("cancelButton").addEventListener("click", hideModal);
   document.getElementById("closeModalBtn").addEventListener("click", hideModal);
 
-
-  function addItemEntry() {
-    fetch("{% url 'main:add_item_entry_ajax' %}", {
-      method: "POST",
-      body: new FormData(document.querySelector('#itemEntryForm')),
-    })
-    .then(response => refreshItemEntries())
-
-    document.getElementById("itemEntryForm").reset(); 
-    document.querySelector("[data-modal-toggle='crudModal']").click();
-
-    return false;
-  }
-
   async function addItemEntry() {
     const form = document.getElementById('itemEntryForm');
     const errorMessage = document.getElementById('errorMessage');
-    const formData = new FormData(form); // Ambil data dari form
+
+    // Get form input values
+    const nameInput = document.getElementById('name').value;
+    const priceInput = document.getElementById('price').value;
+    const descriptionInput = document.getElementById('description').value;
+    const quantityInput = document.getElementById('quantity').value;
+
+    // Sanitize input values using DOMPurify
+    const sanitized_name = DOMPurify.sanitize(nameInput);
+    const sanitized_price = DOMPurify.sanitize(priceInput);
+    const sanitized_description = DOMPurify.sanitize(descriptionInput);
+    const sanitized_quantity = DOMPurify.sanitize(quantityInput);
+
+    // Check if the original input differs from sanitized input
+    if (nameInput !== sanitized_name || descriptionInput !== sanitized_description || priceInput !== sanitized_price || quantityInput !== sanitized_quantity) {
+        errorMessage.innerHTML = 'Invalid input detected. Please remove any potentially harmful content.';
+        errorMessage.classList.remove('hidden');
+        return; // Prevent submission
+    }
+
+    const formData = new FormData();
+    formData.append('name', sanitized_name);
+    formData.append('price', sanitized_price);
+    formData.append('description', sanitized_description);
+    formData.append('quantity', sanitized_quantity);
 
     try {
         const response = await fetch("{% url 'main:add_item_entry_ajax' %}", {
             method: "POST",
             headers: {
-                "X-Requested-With": "XMLHttpRequest" // Pastikan ini ditambahkan untuk AJAX requests
+                "X-Requested-With": "XMLHttpRequest" // Required for AJAX requests
             },
             body: formData,
         });
 
         if (!response.ok) {
-            // Jika respons gagal, tampilkan pesan error
             const data = await response.json();
             errorMessage.innerHTML = data.error || 'An error occurred while adding the item.';
             errorMessage.classList.remove('hidden');
             return;
         }
 
-        // Jika berhasil, sembunyikan pesan error (jika ada), refresh daftar item dan reset form
+        // If successful, hide the error message, refresh items, reset form, and close the modal
         errorMessage.classList.add('hidden');
-        await refreshItemEntries(); // Refresh data yang ada di halaman
-        form.reset(); // Reset form setelah berhasil menambahkan item
-        hideModal(); // Sembunyikan modal
+        await refreshItemEntries();
+        form.reset();
+        hideModal();
 
     } catch (error) {
-        // Jika terjadi error lain, tampilkan pesan error
         errorMessage.innerHTML = 'An error occurred: ' + error.message;
         errorMessage.classList.remove('hidden');
     }
   }
 
-
   document.getElementById("itemEntryForm").addEventListener("submit", (e) => {
-    e.preventDefault();
-    addItemEntry();
-    hideModal();
-  })
+      e.preventDefault();
+      addItemEntry();
+  });
 </script>
 
 <style>
