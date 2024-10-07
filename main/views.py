@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django.utils.html import strip_tags
 
 
 @login_required(login_url='/login')
@@ -40,9 +41,9 @@ def create_item_entry(request):
 @csrf_exempt
 @require_POST
 def add_item_entry_ajax(request):
-    name = request.POST.get("name")
+    name = strip_tags(request.POST.get("name"))
     price = request.POST.get("price")
-    description = request.POST.get("description")
+    description = strip_tags(request.POST.get("description"))
     quantity = request.POST.get("quantity")
     user = request.user
 
